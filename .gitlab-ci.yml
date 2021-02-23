@@ -1,0 +1,38 @@
+stages:
+  - build
+
+ghi-build:
+  stage: build
+  variables:
+    IMAGE_TAG: orchestrated-ghi:$CI_COMMIT_REF_NAME
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+
+  script:
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"gitlab-ci-token\",\"password\":\"$CI_JOB_TOKEN\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/ghi/Dockerfile --destination $IMAGE_TAG
+
+api-build:
+  stage: build
+  variables:
+    IMAGE_TAG: orchestrated-api:$CI_COMMIT_REF_NAME
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+
+  script:
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"gitlab-ci-token\",\"password\":\"$CI_JOB_TOKEN\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/api/Dockerfile --destination $IMAGE_TAG
+
+auth-build:
+  stage: build
+  variables:
+    IMAGE_TAG: orchestrated-auth:$CI_COMMIT_REF_NAME
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+
+  script:
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"gitlab-ci-token\",\"password\":\"$CI_JOB_TOKEN\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/auth/Dockerfile --destination $IMAGE_TAG
