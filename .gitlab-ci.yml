@@ -11,7 +11,7 @@ ghi-build:
 
   script:
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"gitlab-ci-token\",\"password\":\"$CI_JOB_TOKEN\"}}}" > /kaniko/.docker/config.json
-    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/ghi/Dockerfile --destination $IMAGE_TAG
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/ghi/Dockerfile --destinationregistry.gitlab.com/orc/prodev-k8s-services/orchestrated-ghi:$CI_COMMIT_REF_NAME
 
 api-build:
   stage: build
@@ -23,7 +23,7 @@ api-build:
 
   script:
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"gitlab-ci-token\",\"password\":\"$CI_JOB_TOKEN\"}}}" > /kaniko/.docker/config.json
-    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/api/Dockerfile --destination $IMAGE_TAG
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/api/Dockerfile --destination $egistry.gitlab.com/orc/prodev-k8s-services/orchestrated-api:$CI_COMMIT_REF_NAME
 
 auth-build:
   stage: build
@@ -35,4 +35,4 @@ auth-build:
 
   script:
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"gitlab-ci-token\",\"password\":\"$CI_JOB_TOKEN\"}}}" > /kaniko/.docker/config.json
-    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/auth/Dockerfile --destination $IMAGE_TAG
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/auth/Dockerfile --destination registry.gitlab.com/orc/prodev-k8s-services/orchestrated-auth:$CI_COMMIT_REF_NAME
